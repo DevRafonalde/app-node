@@ -1,4 +1,4 @@
-import tblAluno from "../models/tbl_Aluno";
+import tblAluno from "../models/tblAluno";
 
 class HomeController {
     async index(req, res) {
