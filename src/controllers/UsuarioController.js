@@ -3,6 +3,8 @@ import tblUsuario from "../models/tblUsuario";
 class UsuarioController {
     async index(req, res) {
         try {
+            console.log("Id do Usuário", req.userId);
+            console.log("Nome de Usuário", req.userNomeUser);
             const todosUsuarios = await tblUsuario.findAll();
             return res.json(todosUsuarios);
         } catch (e) {
