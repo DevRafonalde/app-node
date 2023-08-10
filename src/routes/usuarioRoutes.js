@@ -5,8 +5,8 @@ import loginRequired from "../middlewares/loginRequired";
 const router = new Router();
 
 // Não deveriam existir no contexto real de uma aplicação
-router.get("/", usuarioController.index); // Listar Usuários
-router.get("/show/:id", usuarioController.show); // Listar Usuário
+// router.get("/", usuarioController.index); // Listar Usuários
+// router.get("/show/:id", usuarioController.show); // Listar Usuário
 
 router.post("/create", usuarioController.create);
 router.put("/update/", loginRequired, usuarioController.update);
