@@ -65,4 +65,8 @@ export default class tblUsuario extends Model {
 
         return this;
     }
+
+    isSenhaValida(senha) {
+        return bcryptjs.compare(senha, this.password_hash)
+    }
 }
