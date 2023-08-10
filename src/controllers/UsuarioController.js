@@ -5,7 +5,7 @@ class UsuarioController {
         try {
             console.log("Id do Usuário", req.userId);
             console.log("Nome de Usuário", req.userNomeUser);
-            const todosUsuarios = await tblUsuario.findAll();
+            const todosUsuarios = await tblUsuario.findAll({attributes: ['id', 'nome', 'nome_user']});
             return res.json(todosUsuarios);
         } catch (e) {
             return res.json(null);
@@ -15,7 +15,8 @@ class UsuarioController {
     async create(req, res) {
         try {
             const novoUsuario = await tblUsuario.create(req.body);
-            return res.json(novoUsuario);
+            const {id, nome, nome_user, email} = novoUsuario;
+            return res.json({id, nome, nome_user, email});
         } catch (e) {
             return res.status(400).json({
                 errors: e.errors.map((err) => err.message)
@@ -28,7 +29,9 @@ class UsuarioController {
             // const {id} = req.params;
             // const usuario = await tblUsuario.findByPk(id); OU
             const usuario = await tblUsuario.findByPk(req.params.id);
-            return res.json(usuario);
+            const {id, nome, nome_user} = usuario;
+
+            return res.json({id, nome, nome_user});
         } catch (e) {
             return res.json(null);
         }
@@ -36,14 +39,7 @@ class UsuarioController {
 
     async update(req, res) {
         try {
-
-            if(!req.params.id) {
-                return res.status(400).json({
-                    errors: ["Id não enviado."]
-                });
-            }
-
-            const usuario = await tblUsuario.findByPk(req.params.id);
+            const usuario = await tblUsuario.findByPk(req.userId);
 
             if(!usuario) {
                 return res.status(400).json({
@@ -52,8 +48,9 @@ class UsuarioController {
             }
 
             const usuarioAtualizado = await usuario.update(req.body);
+            const {id, nome, nome_user} = usuarioAtualizado;
 
-            return res.json(usuarioAtualizado);
+            return res.json({id, nome, nome_user});
         } catch (e) {
             return res.status(400).json({
                 errors: e.errors.map((err) => err.message)
@@ -63,14 +60,7 @@ class UsuarioController {
 
     async delete(req, res) {
         try {
-
-            if(!req.params.id) {
-                return res.status(400).json({
-                    errors: ["Id não enviado."]
-                });
-            }
-
-            const usuario = await tblUsuario.findByPk(req.params.id);
+            const usuario = await tblUsuario.findByPk(req.userId);
 
             if(!usuario) {
                 return res.status(400).json({

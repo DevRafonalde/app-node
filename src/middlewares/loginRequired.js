@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
-export default(req, res, next) => {
+import tblUsuario from '../models/tblUsuario';
+
+export default async(req, res, next) => {
     const {authorization} = req.headers;
 
     if(!authorization) {
@@ -13,6 +15,20 @@ export default(req, res, next) => {
     try {
         const dados = jwt.verify(token, process.env.TOKEN_SECRET);
         const {id, nome_user} = dados;
+
+        const user = await tblUsuario.findOne({
+            where: {
+                id,
+                nome_user,
+            },
+        });
+
+        if(!user) {
+            return res.status(401).json({
+                errors: ["Usuário inválido"],
+            });
+        }
+
         req.userId = id;
         req.userNomeUser = nome_user;
         return next();
