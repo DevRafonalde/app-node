@@ -29,5 +29,6 @@ module.exports = {
         }],
         "template-curly-spacing": ["error", "never"],
         "import/no-extraneous-dependencies": 0,
+        "no-unused-vars": 1,
     },
 };
