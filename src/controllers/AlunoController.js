@@ -13,23 +13,33 @@ class AlunoController {
     async create(req, res) {
         try {
             const novoAluno = await tblAluno.create(req.body);
-            const {id, nome, nome_user, email} = novoAluno;
-            return res.json({id, nome, nome_user, email});
+            return res.json(novoAluno);
         } catch (e) {
             return res.status(400).json({
-                errors: e.errors.map((err) => err.message)
+                errors: e.errors.map((err) => err.message),
             });
         }
     }
 
     async show(req, res) {
         try {
-            // const {id} = req.params;
-            // const aluno = await tblAluno.findByPk(id); OU
-            const aluno = await tblAluno.findByPk(req.params.id);
-            const {id, nome, nome_user} = aluno;
+            const {id} = req.params;
 
-            return res.json({id, nome, nome_user});
+            if(!id) {
+                return res.status(400).json({
+                    errors: ["Faltando ID"],
+                });
+            }
+
+            const aluno = await tblAluno.findByPk(id);
+
+            if(!aluno) {
+                return res.status(400).json({
+                    errors: ["Aluno não encontrado"],
+                });
+            }
+
+            return res.json(aluno);
         } catch (e) {
             return res.json(null);
         }
@@ -37,41 +47,58 @@ class AlunoController {
 
     async update(req, res) {
         try {
-            const aluno = await tblAluno.findByPk(req.userId);
+            const {id} = req.params;
+
+            if(!id) {
+                return res.status(400).json({
+                    errors: ["Faltando ID"],
+                });
+            }
+
+            const aluno = await tblAluno.findByPk(id);
 
             if(!aluno) {
                 return res.status(400).json({
-                    errors: ["Usuário não existe."]
+                    errors: ["Aluno não encontrado"],
                 });
             }
 
             const alunoAtualizado = await aluno.update(req.body);
-            const {id, nome, nome_user} = alunoAtualizado;
 
-            return res.json({id, nome, nome_user});
+            return res.json(alunoAtualizado);
         } catch (e) {
             return res.status(400).json({
-                errors: e.errors.map((err) => err.message)
+                errors: e.errors.map((err) => err.message),
             });
         }
     }
 
     async delete(req, res) {
         try {
-            const aluno = await tblAluno.findByPk(req.userId);
+            const {id} = req.params;
+
+            if(!id) {
+                return res.status(400).json({
+                    errors: ["Faltando ID"],
+                });
+            }
+
+            const aluno = await tblAluno.findByPk(id);
 
             if(!aluno) {
                 return res.status(400).json({
-                    errors: ["Usuário não existe."]
+                    errors: ["Aluno não encontrado"],
                 });
             }
 
             await aluno.destroy();
 
-            return res.json(aluno);
+            return res.json({
+                apagado: true,
+            });
         } catch (e) {
             return res.status(400).json({
-                errors: e.errors.map((err) => err.message)
+                errors: e.errors.map((err) => err.message),
             });
         }
     }

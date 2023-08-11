@@ -1,14 +1,14 @@
-import { Router } from "express";
+import {Router} from "express";
 import alunoController from "../controllers/AlunoController";
 import loginRequired from "../middlewares/loginRequired";
 
 const router = new Router();
 
-router.get("/", alunoController.index);
-router.get("/show/:id", alunoController.show);
-router.post("/create", alunoController.create);
-router.put("/update/", loginRequired, alunoController.update);
-router.delete("/delete/", loginRequired, alunoController.delete);
+router.get("/", loginRequired, alunoController.index);
+router.get("/show/:id", loginRequired, alunoController.show);
+router.post("/create", loginRequired, alunoController.create);
+router.put("/update/:id", loginRequired, alunoController.update);
+router.delete("/delete/:id", loginRequired, alunoController.delete);
 
 export default router;
 
