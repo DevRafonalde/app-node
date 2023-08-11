@@ -1,9 +1,17 @@
 import tblAluno from "../models/tblAluno";
+import tblFoto from "../models/tblFoto";
 
 class AlunoController {
     async index(req, res) {
         try {
-            const todosAlunos = await tblAluno.findAll();
+            const todosAlunos = await tblAluno.findAll({
+                attributes: ["id", "nome", "sobrenome", "email", "idade", "peso", "altura"],
+                order: [["id", "DESC"], [tblFoto, "id", "DESC"]],
+                include: {
+                    model: tblFoto,
+                    attributes: ["originalname", "filename"],
+                },
+            });
             return res.json(todosAlunos);
         } catch (e) {
             return res.json(null);
@@ -31,7 +39,14 @@ class AlunoController {
                 });
             }
 
-            const aluno = await tblAluno.findByPk(id);
+            const aluno = await tblAluno.findByPk(id, {
+                attributes: ["id", "nome", "sobrenome", "email", "idade", "peso", "altura"],
+                order: [["id", "DESC"], [tblFoto, "id", "DESC"]],
+                include: {
+                    model: tblFoto,
+                    attributes: ["originalname", "filename"],
+                },
+            });
 
             if(!aluno) {
                 return res.status(400).json({

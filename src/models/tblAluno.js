@@ -64,4 +64,8 @@ export default class tblAluno extends Model {
         });
         return this;
     }
+
+    static associate(models) {
+        this.hasMany(models.tblFoto, {foreignKey: "aluno_id"});
+    }
 }

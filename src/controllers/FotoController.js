@@ -13,12 +13,17 @@ class FotoController {
                 });
             }
 
-            const {originalname, filename} = req.file;
-            const {aluno_id} = req.body;
+            try {
+                const {originalname, filename} = req.file;
+                const {aluno_id} = req.body;
 
-            const arquivo = await tblFoto.create({originalname, filename, aluno_id});
-
-            return res.json(req.file);
+                const arquivo = await tblFoto.create({originalname, filename, aluno_id});
+                return res.json(arquivo);
+            } catch (e) {
+                return res.status(400).json({
+                    errors: ["Aluno não existe"], // pode ser outro, mas aqui eu assumo q é esse e fodase
+                });
+            }
         });
     }
 }

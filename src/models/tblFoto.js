@@ -27,8 +27,4 @@ export default class tblFoto extends Model {
         });
         return this;
     }
-
-    static associate(models) {
-        this.belongsTo(models.tblAluno, {foreignKey: "aluno_id"});
-    }
 }
