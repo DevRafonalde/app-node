@@ -1,30 +1,30 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable("tbl_Usuarios", {
+        await queryInterface.createTable("tbl_Fotos", {
             id: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
             },
-            nome: {
+            originalname: {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            email: {
+            filename: {
                 type: Sequelize.STRING,
                 allowNull: false,
-                unique: true,
             },
-            nomeUser: {
-                type: Sequelize.STRING,
-                allowNull: false,
-                unique: true,
-            },
-            password_hash: {
-                type: Sequelize.STRING,
-                allowNull: false,
+            aluno_id: {
+                type: Sequelize.INTEGER,
+                allowNull: true,
+                references: {
+                    model: "tbl_Alunos",
+                    key: "id",
+                },
+                onDelete: "CASCADE",
+                onUpdate: "CASCADE",
             },
             created_at: {
                 type: Sequelize.DATE,
@@ -38,6 +38,6 @@ module.exports = {
     },
 
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable("tbl_Usuarios");
+        await queryInterface.dropTable("tbl_Fotos");
     },
 };

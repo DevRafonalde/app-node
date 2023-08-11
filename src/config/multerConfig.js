@@ -5,8 +5,8 @@ const aleatorio = () => Math.floor(Math.random() * 10000 + 10000);
 
 export default {
     fileFilter: (req, file, cb) => {
-        if(file.mimetype !== "image/png" && file.mimetype !== "image/jpeg" && file.mimetype !== "image/jpg" && file.mimetype !== "application/pdf") {
-            return cb(new multer.MulterError("São aceitos apenas arquivo .PNG, .JPEG ou .PDF"));
+        if(file.mimetype !== "image/png" && file.mimetype !== "image/jpeg" && file.mimetype !== "image/jpg") {
+            return cb(new multer.MulterError("São aceitos apenas arquivo .PNG, .JPEG ou .JPG"));
         }
         return cb(null, true);
     },
