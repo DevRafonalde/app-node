@@ -12,6 +12,20 @@ import fotoRoutes from "./routes/fotoRoutes";
 
 dotenv.config();
 
+const whiteList = [
+    "http://localhost:3000",
+];
+
+const corsOptions = {
+    origin(origin, callback) {
+        if(whiteList.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error("Não autorizado pelo CORS"));
+        }
+    },
+};
+
 class App {
     constructor() {
         this.app = express();
@@ -20,7 +34,7 @@ class App {
     }
 
     middlewares() {
-        this.app.use(cors());
+        this.app.use(cors(corsOptions));
         this.app.use(helmet());
         this.app.use(express.urlencoded({extended: true}));
         this.app.use(express.json());
