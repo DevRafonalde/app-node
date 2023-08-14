@@ -3,16 +3,15 @@ import tblUsuario from "../models/tblUsuario";
 
 class TokenController {
     async create(req, res) {
-        const { nome_user = '', password = ''} = req.body;
+        const {nome_user = "", password = ""} = req.body;
 
         if(!nome_user || !password) {
             return res.status(401).json({
                 errors: ["Credenciais inválidas"],
             });
-
         }
         const usuario = await tblUsuario.findOne({
-            where: {nome_user}
+            where: {nome_user},
         });
 
         if(!usuario) {
@@ -30,12 +29,12 @@ class TokenController {
         const {id} = usuario;
         const token = jwt.sign({
             id,
-            nome_user
+            nome_user,
         }, process.env.TOKEN_SECRET, {
             expiresIn: process.env.TOKEN_EXPIRATION,
         });
 
-        res.json({token});
+        return res.json({token, usuario: {nome: usuario.nome, id, nome_user}});
     }
 }
 
