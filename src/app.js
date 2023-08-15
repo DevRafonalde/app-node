@@ -36,7 +36,6 @@ class App {
         this.app.use(cors(corsOptions));
         this.app.use(express.urlencoded({extended: true}));
         this.app.use(express.json());
-        console.log(resolve(__dirname, "..", "uploads", "images"));
         this.app.use(express.static(resolve(__dirname, "..", "uploads")));
     }
 
