@@ -16,7 +16,6 @@ class FotoController {
             try {
                 const {originalname, filename} = req.file;
                 const {aluno_id} = req.body;
-
                 const arquivo = await tblFoto.create({originalname, filename, aluno_id});
                 return res.json(arquivo);
             } catch (e) {
