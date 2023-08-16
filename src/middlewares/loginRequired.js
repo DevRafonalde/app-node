@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
-import tblUsuario from '../models/tblUsuario';
+import jwt from "jsonwebtoken";
+import tblUsuario from "../models/tblUsuario";
 
-export default async(req, res, next) => {
+export default async (req, res, next) => {
     const {authorization} = req.headers;
 
     if(!authorization) {
@@ -10,7 +10,7 @@ export default async(req, res, next) => {
         });
     }
 
-    const [texto, token] = authorization.split(' ');
+    const [texto, token] = authorization.split(" ");
 
     try {
         const dados = jwt.verify(token, process.env.TOKEN_SECRET);

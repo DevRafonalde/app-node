@@ -26,7 +26,7 @@ class TokenController {
             });
         }
 
-        const {id} = usuario;
+        const {id, email} = usuario;
         const token = jwt.sign({
             id,
             nome_user,
@@ -34,7 +34,12 @@ class TokenController {
             expiresIn: process.env.TOKEN_EXPIRATION,
         });
 
-        return res.json({token, usuario: {nome: usuario.nome, id, nome_user}});
+        return res.json({
+            token,
+            usuario: {
+                nome: usuario.nome, id, nome_user, email,
+            },
+        });
     }
 }
 

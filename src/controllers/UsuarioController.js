@@ -5,7 +5,7 @@ class UsuarioController {
         try {
             console.log("Id do Usuário", req.userId);
             console.log("Nome de Usuário", req.userNomeUser);
-            const todosUsuarios = await tblUsuario.findAll({attributes: ['id', 'nome', 'nome_user']});
+            const todosUsuarios = await tblUsuario.findAll({attributes: ["id", "nome", "nome_user"]});
             return res.json(todosUsuarios);
         } catch (e) {
             return res.json(null);
@@ -15,11 +15,15 @@ class UsuarioController {
     async create(req, res) {
         try {
             const novoUsuario = await tblUsuario.create(req.body);
-            const {id, nome, nome_user, email} = novoUsuario;
-            return res.json({id, nome, nome_user, email});
+            const {
+                id, nome, nome_user, email,
+            } = novoUsuario;
+            return res.json({
+                id, nome, nome_user, email,
+            });
         } catch (e) {
             return res.status(400).json({
-                errors: e.errors.map((err) => err.message)
+                errors: e.errors.map((err) => err.message),
             });
         }
     }
@@ -43,7 +47,7 @@ class UsuarioController {
 
             if(!usuario) {
                 return res.status(400).json({
-                    errors: ["Usuário não existe."]
+                    errors: ["Usuário não existe."],
                 });
             }
 
@@ -53,7 +57,7 @@ class UsuarioController {
             return res.json({id, nome, nome_user});
         } catch (e) {
             return res.status(400).json({
-                errors: e.errors.map((err) => err.message)
+                errors: e.errors.map((err) => err.message),
             });
         }
     }
@@ -64,7 +68,7 @@ class UsuarioController {
 
             if(!usuario) {
                 return res.status(400).json({
-                    errors: ["Usuário não existe."]
+                    errors: ["Usuário não existe."],
                 });
             }
 
@@ -73,7 +77,7 @@ class UsuarioController {
             return res.json(usuario);
         } catch (e) {
             return res.status(400).json({
-                errors: e.errors.map((err) => err.message)
+                errors: e.errors.map((err) => err.message),
             });
         }
     }
